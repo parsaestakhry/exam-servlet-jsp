@@ -58,7 +58,7 @@ public class QuestionsServlet extends HttpServlet {
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(
                             "SELECT q.question_id, q.question_no, q.question_description, q.score, " +
-                                    "e.exam_title " +
+                                    "e.exam_title, e.exam_id " +
                                     "FROM questions q " +
                                     "JOIN exams e ON q.exam_id = e.exam_id " +
                                     "ORDER BY q.exam_id, q.question_no");
@@ -71,6 +71,7 @@ public class QuestionsServlet extends HttpServlet {
                         q.put("questionDescription", rs.getString("question_description"));
                         q.put("score", rs.getInt("score"));
                         q.put("examTitle", rs.getString("exam_title"));
+                        q.put("examId", rs.getInt("exam_id"));
                         questions.add(q);
                     }
 

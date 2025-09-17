@@ -42,7 +42,7 @@ public class StudentAnswersServlet extends HttpServlet {
                 case "edit": {
                     int answerId = Integer.parseInt(req.getParameter("student_answer_id"));
                     PreparedStatement ps = conn.prepareStatement(
-                            "SELECT * FROM studentanswers WHERE student_answer_id=?");
+                            "SELECT * FROM student_answers WHERE student_answer_id=?");
                     ps.setInt(1, answerId);
                     ResultSet rs = ps.executeQuery();
                     if (rs.next()) {
@@ -62,7 +62,7 @@ public class StudentAnswersServlet extends HttpServlet {
                 case "delete": {
                     int delId = Integer.parseInt(req.getParameter("student_answer_id"));
                     PreparedStatement delPs = conn.prepareStatement(
-                            "DELETE FROM studentanswers WHERE student_answer_id=?");
+                            "DELETE FROM student_answers WHERE student_answer_id=?");
                     delPs.setInt(1, delId);
                     delPs.executeUpdate();
                     resp.sendRedirect("studentAnswers");
@@ -72,12 +72,12 @@ public class StudentAnswersServlet extends HttpServlet {
                 default: { // list
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(
-                            "SELECT sa.student_answer_id, sa.scoregiven, " +
-                                    "q.question_description, o.option_title, se.student_exam_id " +
-                                    "FROM studentanswers sa " +
+                            "SELECT sa.student_answer_id, sa.score_given, " +
+                                    "se.student_exam_id, sa.question_id, sa.chosen_option_id " +
+                                    "FROM student_answers sa " +
                                     "JOIN questions q ON sa.question_id = q.question_id " +
-                                    "LEFT JOIN options o ON sa.chosenoptionid = o.option_id " +
-                                    "JOIN studentexams se ON sa.student_exam_id = se.student_exam_id " +
+                                    "LEFT JOIN options o ON sa.chosen_option_id = o.option_id " +
+                                    "JOIN student_exams se ON sa.student_exam_id = se.student_exam_id " +
                                     "ORDER BY sa.student_exam_id, sa.student_answer_id");
 
                     List<Map<String, Object>> answers = new ArrayList<>();
@@ -85,13 +85,13 @@ public class StudentAnswersServlet extends HttpServlet {
                         Map<String, Object> a = new HashMap<>();
                         a.put("studentAnswerId", rs.getInt("student_answer_id"));
                         a.put("studentExamId", rs.getInt("student_exam_id"));
-                        a.put("questionDescription", rs.getString("question_description"));
-                        a.put("optionTitle", rs.getString("option_title"));
-                        a.put("scoreGiven", rs.getBigDecimal("scoregiven"));
+                        a.put("scoreGiven", rs.getBigDecimal("score_given"));
+                        a.put("questionId", rs.getInt("question_id"));
+                        a.put("chosenOptionId", rs.getInt("chosen_option_id"));
                         answers.add(a);
                     }
 
-                    req.setAttribute("answers", answers);
+                    req.setAttribute("studentAnswers", answers);
                     req.getRequestDispatcher("/studentanswers.jsp").forward(req, resp);
                 }
             }
@@ -113,7 +113,7 @@ public class StudentAnswersServlet extends HttpServlet {
         try (Connection conn = DbUtil.getConnection()) {
             if (studentAnswerId == null || studentAnswerId.isEmpty()) {
                 PreparedStatement ps = conn.prepareStatement(
-                        "INSERT INTO studentanswers (student_exam_id, question_id, chosenoptionid, scoregiven) VALUES (?, ?, ?, ?)");
+                        "INSERT INTO student_answers (student_exam_id, question_id, chosenoptionid, scoregiven) VALUES (?, ?, ?, ?)");
                 ps.setInt(1, Integer.parseInt(studentExamId));
                 ps.setInt(2, Integer.parseInt(questionId));
                 if (chosenOptionId != null && !chosenOptionId.isEmpty()) {
@@ -126,7 +126,7 @@ public class StudentAnswersServlet extends HttpServlet {
                 ps.executeUpdate();
             } else {
                 PreparedStatement ps = conn.prepareStatement(
-                        "UPDATE studentanswers SET student_exam_id=?, question_id=?, chosenoptionid=?, scoregiven=? WHERE student_answer_id=?");
+                        "UPDATE student_answers SET student_exam_id=?, question_id=?, chosenoptionid=?, scoregiven=? WHERE student_answer_id=?");
                 ps.setInt(1, Integer.parseInt(studentExamId));
                 ps.setInt(2, Integer.parseInt(questionId));
                 if (chosenOptionId != null && !chosenOptionId.isEmpty()) {

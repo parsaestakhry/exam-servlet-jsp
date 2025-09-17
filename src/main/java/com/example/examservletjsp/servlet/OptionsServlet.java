@@ -58,7 +58,7 @@ public class OptionsServlet extends HttpServlet {
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(
                             "SELECT o.option_id, o.option_no, o.option_title, o.is_correct, " +
-                                    "q.question_description " +
+                                    "q.question_description, o.question_id " +
                                     "FROM options o " +
                                     "JOIN questions q ON o.question_id = q.question_id " +
                                     "ORDER BY o.question_id, o.option_no");
@@ -71,6 +71,7 @@ public class OptionsServlet extends HttpServlet {
                         opt.put("optionTitle", rs.getString("option_title"));
                         opt.put("isCorrect", rs.getBoolean("is_correct"));
                         opt.put("questionDescription", rs.getString("question_description"));
+                        opt.put("questionId", rs.getInt("question_id"));
                         options.add(opt);
                     }
 

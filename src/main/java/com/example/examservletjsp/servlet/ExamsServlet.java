@@ -60,7 +60,7 @@ public class ExamsServlet extends HttpServlet {
 
                     ResultSet rs = stmt.executeQuery(
                             "SELECT e.exam_id, e.exam_title, e.exam_date, e.percentile, " +
-                                    "e.course_id, c.course_title " +   // include ID
+                                    "e.course_id, c.course_title " +
                                     "FROM exams e " +
                                     "JOIN courses c ON e.course_id = c.course_id " +
                                     "ORDER BY e.exam_id");
@@ -70,6 +70,7 @@ public class ExamsServlet extends HttpServlet {
                         Map<String, Object> e = new HashMap<>();
                         e.put("examId", rs.getInt("exam_id"));
                         e.put("examDate", rs.getDate("exam_date"));
+                        e.put("examTitle", rs.getString("exam_title"));
                         e.put("percentile", rs.getBigDecimal("percentile"));
                         e.put("courseId", rs.getInt("course_id"));          // add ID
                         e.put("courseTitle", rs.getString("course_title")); // keep title too

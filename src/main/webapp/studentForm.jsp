@@ -2,42 +2,41 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Student Exam Form</title>
+    <title>Student Form</title>
 </head>
 <body>
-<h1>${studentExamId == null ? "Add New" : "Edit"} Student Exam</h1>
+<h1>
+    <c:choose>
+        <c:when test="${not empty studentCode}">Edit Student</c:when>
+        <c:otherwise>Add New Student</c:otherwise>
+    </c:choose>
+</h1>
 
-<form action="studentExams" method="post">
-    <input type="hidden" name="student_exam_id" value="${studentExamId}" />
+<form action="students" method="post">
+    <!-- Hidden input for edit mode -->
+    <c:if test="${not empty studentCode}">
+        <input type="hidden" name="student_code" value="${studentCode}" />
+    </c:if>
 
-    <label>Student:</label>
-    <select name="student_code" required>
-        <c:forEach var="s" items="${students}">
-            <option value="${s.studentCode}"
-                    <c:if test="${s.studentCode == studentCode}">selected</c:if>>
-                    ${s.studentCode} - ${s.firstName} ${s.lastName}
-            </option>
-        </c:forEach>
-    </select>
-    <br><br>
+    <table>
+        <tr>
+            <td>First Name:</td>
+            <td><input type="text" name="first_name" value="${firstName}" required /></td>
+        </tr>
+        <tr>
+            <td>Last Name:</td>
+            <td><input type="text" name="last_name" value="${lastName}" required /></td>
+        </tr>
+        <tr>
+            <td>Field Name:</td>
+            <td><input type="text" name="field_name" value="${fieldName}" required /></td>
+        </tr>
+    </table>
 
-    <label>Exam:</label>
-    <select name="exam_id" required>
-        <c:forEach var="e" items="${exams}">
-            <option value="${e.examId}"
-                    <c:if test="${e.examId == examId}">selected</c:if>>
-                    ${e.examId} - ${e.examTitle}
-            </option>
-        </c:forEach>
-    </select>
-    <br><br>
-
-    <label>Final Result:</label>
-    <input type="text" name="final_result" value="${finalResult}" />
-    <br><br>
-
-    <button type="submit">Save</button>
-    <a href="studentExams">Cancel</a>
+    <br>
+    <input type="submit" value="Save" />
+    <a href="students">Cancel</a>
 </form>
+
 </body>
 </html>

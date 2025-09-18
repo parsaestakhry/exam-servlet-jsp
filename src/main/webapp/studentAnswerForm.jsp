@@ -3,7 +3,7 @@
 <head><title>Student Answer Form</title></head>
 <body>
 <h1>Student Answer Form</h1>
-<form method="post" action="studentanswers">
+<form method="post" action="studentAnswers">
     <input type="hidden" name="student_answer_id" value="${studentAnswerId}" />
     Student Exam ID: <input type="number" name="student_exam_id" value="${studentExamId}" required/><br/>
     Question ID: <input type="number" name="question_id" value="${questionId}" required/><br/>

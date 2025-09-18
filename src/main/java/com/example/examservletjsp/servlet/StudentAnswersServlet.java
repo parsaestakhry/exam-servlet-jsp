@@ -49,8 +49,8 @@ public class StudentAnswersServlet extends HttpServlet {
                         req.setAttribute("studentAnswerId", rs.getInt("student_answer_id"));
                         req.setAttribute("studentExamId", rs.getInt("student_exam_id"));
                         req.setAttribute("questionId", rs.getInt("question_id"));
-                        req.setAttribute("chosenOptionId", rs.getInt("chosenoptionid"));
-                        req.setAttribute("scoreGiven", rs.getBigDecimal("scoregiven"));
+                        req.setAttribute("chosenOptionId", rs.getInt("chosen_option_id"));
+                        req.setAttribute("scoreGiven", rs.getBigDecimal("score_given"));
                     }
                     req.setAttribute("studentExams", getStudentExams(conn));
                     req.setAttribute("questions", getQuestions(conn));
@@ -113,7 +113,7 @@ public class StudentAnswersServlet extends HttpServlet {
         try (Connection conn = DbUtil.getConnection()) {
             if (studentAnswerId == null || studentAnswerId.isEmpty()) {
                 PreparedStatement ps = conn.prepareStatement(
-                        "INSERT INTO student_answers (student_exam_id, question_id, chosenoptionid, scoregiven) VALUES (?, ?, ?, ?)");
+                        "INSERT INTO student_answers (student_exam_id, question_id, chosen_option_id, score_given) VALUES (?, ?, ?, ?)");
                 ps.setInt(1, Integer.parseInt(studentExamId));
                 ps.setInt(2, Integer.parseInt(questionId));
                 if (chosenOptionId != null && !chosenOptionId.isEmpty()) {
@@ -126,7 +126,7 @@ public class StudentAnswersServlet extends HttpServlet {
                 ps.executeUpdate();
             } else {
                 PreparedStatement ps = conn.prepareStatement(
-                        "UPDATE student_answers SET student_exam_id=?, question_id=?, chosenoptionid=?, scoregiven=? WHERE student_answer_id=?");
+                        "UPDATE student_answers SET student_exam_id=?, question_id=?, chosen_option_id=?, score_given=? WHERE student_answer_id=?");
                 ps.setInt(1, Integer.parseInt(studentExamId));
                 ps.setInt(2, Integer.parseInt(questionId));
                 if (chosenOptionId != null && !chosenOptionId.isEmpty()) {
@@ -150,7 +150,7 @@ public class StudentAnswersServlet extends HttpServlet {
     private List<Map<String, Object>> getStudentExams(Connection conn) throws SQLException {
         List<Map<String, Object>> exams = new ArrayList<>();
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT student_exam_id FROM studentexams");
+        ResultSet rs = stmt.executeQuery("SELECT student_exam_id FROM student_exams");
         while (rs.next()) {
             Map<String, Object> e = new HashMap<>();
             e.put("studentExamId", rs.getInt("student_exam_id"));

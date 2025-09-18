@@ -27,7 +27,7 @@ public class IndexServlet extends HttpServlet {
             out.println("<li><a href='exams'>Manage Exams</a></li>");
             out.println("<li><a href='questions'>Manage Questions</a></li>");
             out.println("<li><a href='options'>Manage Options</a></li>");
-            out.println("<li><a href='studentExams'>Manage Student Exams</a></li>");
+            out.println("<li><a href='studentexams'>Manage Student Exams</a></li>");
             out.println("<li><a href='studentAnswers'>Manage Student Answers</a></li>");
             out.println("</ul>");
             out.println("</body></html>");

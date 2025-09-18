@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Student Exams</h1>
-<a href="studentExams?action=new">Add New Student Exam</a><br><br>
+<a href="studentexams?action=new">Add New Student Exam</a><br><br>
 
 <table border="1">
     <tr>
@@ -23,8 +23,8 @@
             <td>${se.examId} </td>
             <td>${se.finalResult}</td>
             <td>
-                <a href="studentExams?action=edit&student_exam_id=${se.studentExamId}">Edit</a> |
-                <a href="studentExams?action=delete&student_exam_id=${se.studentExamId}"
+                <a href="studentexams?action=edit&student_exam_id=${se.studentExamId}">Edit</a> |
+                <a href="studentexams?action=delete&student_exam_id=${se.studentExamId}"
                    onclick="return confirm('Are you sure?')">Delete</a>
             </td>
         </tr>

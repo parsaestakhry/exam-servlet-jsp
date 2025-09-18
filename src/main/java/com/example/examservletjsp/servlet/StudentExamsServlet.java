@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = {"/studentExams" })
+@WebServlet(urlPatterns = {"/studentexams" })
 public class StudentExamsServlet extends HttpServlet {
 
 	@Override

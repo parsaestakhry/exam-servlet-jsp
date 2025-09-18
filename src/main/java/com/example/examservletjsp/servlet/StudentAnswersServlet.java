@@ -69,7 +69,7 @@ public class StudentAnswersServlet extends HttpServlet {
                     break;
                 }
 
-                default: { // list
+                default: { 
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(
                             "SELECT sa.student_answer_id, sa.score_given, " +
@@ -146,7 +146,6 @@ public class StudentAnswersServlet extends HttpServlet {
         resp.sendRedirect("studentAnswers");
     }
 
-    // Utility: fetch student exams
     private List<Map<String, Object>> getStudentExams(Connection conn) throws SQLException {
         List<Map<String, Object>> exams = new ArrayList<>();
         Statement stmt = conn.createStatement();
@@ -159,7 +158,6 @@ public class StudentAnswersServlet extends HttpServlet {
         return exams;
     }
 
-    // Utility: fetch questions
     private List<Map<String, Object>> getQuestions(Connection conn) throws SQLException {
         List<Map<String, Object>> questions = new ArrayList<>();
         Statement stmt = conn.createStatement();
@@ -173,7 +171,6 @@ public class StudentAnswersServlet extends HttpServlet {
         return questions;
     }
 
-    // Utility: fetch options
     private List<Map<String, Object>> getOptions(Connection conn) throws SQLException {
         List<Map<String, Object>> options = new ArrayList<>();
         Statement stmt = conn.createStatement();

@@ -1,13 +1,23 @@
 package com.example.examservletjsp.servlet;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.example.examservletjsp.db.DbUtil;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-
-import java.io.IOException;
-import java.sql.*;
-import java.util.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/enrollments")
 public class EnrollmentsServlet extends HttpServlet {
@@ -22,7 +32,6 @@ public class EnrollmentsServlet extends HttpServlet {
         try (Connection conn = DbUtil.getConnection()) {
             switch (action) {
                 case "new":
-                    // for dropdowns
                     req.setAttribute("students", getStudents(conn));
                     req.setAttribute("courses", getCourses(conn));
                     req.getRequestDispatcher("/enrollmentForm.jsp").forward(req, resp);
@@ -54,7 +63,7 @@ public class EnrollmentsServlet extends HttpServlet {
                     break;
                 }
 
-                default: { // list
+                default: {
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(
                             "SELECT e.student_code, e.course_id, " +
@@ -94,14 +103,13 @@ public class EnrollmentsServlet extends HttpServlet {
 
         try (Connection conn = DbUtil.getConnection()) {
             if (originalStudent == null || originalCourse == null) {
-                // insert
+                
                 PreparedStatement ps = conn.prepareStatement(
                         "INSERT INTO enrollments (student_code, course_id) VALUES (?, ?)");
                 ps.setLong(1, Long.parseLong(studentCode));
                 ps.setInt(2, Integer.parseInt(courseId));
                 ps.executeUpdate();
             } else {
-                // update (delete old, insert new since PK changed)
                 PreparedStatement del = conn.prepareStatement(
                         "DELETE FROM enrollments WHERE student_code=? AND course_id=?");
                 del.setLong(1, Long.parseLong(originalStudent));
@@ -121,7 +129,6 @@ public class EnrollmentsServlet extends HttpServlet {
         resp.sendRedirect("enrollments");
     }
 
-    // Utility methods to fetch dropdowns
     private List<Map<String, Object>> getStudents(Connection conn) throws SQLException {
         List<Map<String, Object>> students = new ArrayList<>();
         Statement stmt = conn.createStatement();

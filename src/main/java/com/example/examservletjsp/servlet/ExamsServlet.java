@@ -1,14 +1,25 @@
 package com.example.examservletjsp.servlet;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.example.examservletjsp.db.DbUtil;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-
-import java.io.IOException;
-import java.sql.*;
-import java.sql.Date;
-import java.util.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/exams")
 public class ExamsServlet extends HttpServlet {
@@ -55,7 +66,7 @@ public class ExamsServlet extends HttpServlet {
                     break;
                 }
 
-                default: { // list
+                default: { 
                     Statement stmt = conn.createStatement();
 
                     ResultSet rs = stmt.executeQuery(
@@ -72,8 +83,8 @@ public class ExamsServlet extends HttpServlet {
                         e.put("examDate", rs.getDate("exam_date"));
                         e.put("examTitle", rs.getString("exam_title"));
                         e.put("percentile", rs.getBigDecimal("percentile"));
-                        e.put("courseId", rs.getInt("course_id"));          // add ID
-                        e.put("courseTitle", rs.getString("course_title")); // keep title too
+                        e.put("courseId", rs.getInt("course_id"));        
+                        e.put("courseTitle", rs.getString("course_title")); 
                         exams.add(e);
                     }
 
@@ -132,7 +143,6 @@ public class ExamsServlet extends HttpServlet {
         resp.sendRedirect("exams");
     }
 
-    // Utility method to load course dropdown
     private List<Map<String, Object>> getCourses(Connection conn) throws SQLException {
         List<Map<String, Object>> courses = new ArrayList<>();
         Statement stmt = conn.createStatement();

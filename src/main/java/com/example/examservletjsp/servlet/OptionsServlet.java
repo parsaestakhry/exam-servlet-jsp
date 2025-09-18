@@ -1,13 +1,23 @@
 package com.example.examservletjsp.servlet;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.example.examservletjsp.db.DbUtil;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-
-import java.io.IOException;
-import java.sql.*;
-import java.util.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/options")
 public class OptionsServlet extends HttpServlet {
@@ -54,7 +64,7 @@ public class OptionsServlet extends HttpServlet {
                     break;
                 }
 
-                default: { // list
+                default: { 
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(
                             "SELECT o.option_id, o.option_no, o.option_title, o.is_correct, " +
@@ -120,7 +130,6 @@ public class OptionsServlet extends HttpServlet {
         resp.sendRedirect("options");
     }
 
-    // Utility: fetch list of questions for dropdown
     private List<Map<String, Object>> getQuestions(Connection conn) throws SQLException {
         List<Map<String, Object>> questions = new ArrayList<>();
         Statement stmt = conn.createStatement();

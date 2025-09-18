@@ -61,7 +61,7 @@ public class StudentExamsServlet extends HttpServlet {
 					break;
 				}
 
-				default: { // list
+				default: { 
 					Statement stmt = conn.createStatement();
 					ResultSet rs = stmt.executeQuery(
 							"SELECT se.student_exam_id, se.student_code, se.exam_id, se.final_result " +

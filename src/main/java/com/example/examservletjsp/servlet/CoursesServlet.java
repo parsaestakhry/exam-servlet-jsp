@@ -50,7 +50,7 @@ public class CoursesServlet extends HttpServlet {
                     break;
                 }
 
-                default: { // list all courses
+                default: { 
                     Statement stmt = conn.createStatement();
                     ResultSet rsAll = stmt.executeQuery(
                             "SELECT * FROM courses ORDER BY course_id");

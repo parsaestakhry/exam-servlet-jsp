@@ -6,11 +6,13 @@
 <h1>Enrollments</h1>
 <a href="enrollments?action=new">Add New Enrollment</a><br><br>
 <table border="1">
-    <tr><th>Student Code</th><th>Course ID</th><th>Actions</th></tr>
+    <tr><th>Student Code</th><th>Student Name</th><th>Course ID</th><th>Course Title</th><th>Actions</th></tr>
     <c:forEach var="enrollment" items="${enrollments}">
         <tr>
             <td>${enrollment.studentCode}</td>
+            <td>${enrollment.studentName}</td>
             <td>${enrollment.courseId}</td>
+            <td>${enrollment.courseTitle}</td>
             <td>
                 <a href="enrollments?action=delete&student_code=${enrollment.studentCode}&course_id=${enrollment.courseId}" onclick="return confirm('Are you sure?')">Delete</a>
             </td>
